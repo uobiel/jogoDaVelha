@@ -84,5 +84,7 @@ function alteraPlacar(elemento, ponto){
 botaoReiniciar.addEventListener('click', function(){
     valorOelement.innerText = '0';
     valorXelement.innerText = '0';
+    valorBolinha = 0;
+    valorXis = 0;
     reiniciaJogo();
 })
