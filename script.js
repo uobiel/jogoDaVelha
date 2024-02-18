@@ -98,7 +98,6 @@ function zeraJogo(){
     valorBolinha = 0;
     valorXis = 0;
     reiniciaJogo();
-<<<<<<< HEAD
 }
 
 function checaVelha() {
@@ -123,6 +122,3 @@ function checaVelha() {
         })
     }
 }
-=======
-})
->>>>>>> f8c04f94447ae91b1820a3741f6f0f512f83d953
