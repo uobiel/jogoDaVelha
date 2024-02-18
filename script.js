@@ -5,6 +5,12 @@ const botaoReiniciar = document.querySelector('.botao');
 const modal = document.querySelector('.fade');
 const jogarNovamenteButton = document.querySelector('#jogaNovamenteButton');
 const reiniciarJogobutton = document.querySelector('#reiniciaButton');
+const telaInformativa = document.querySelector('.fadeWin');
+const adicionaTextoElement = document.querySelector('.texto-informativo');
+const jogaNovamenteButtonInfo = document.querySelector('#jogaNovamenteButtonInfo');
+const zeraPlacarButton = document.querySelector('#zeraPlacarButton');
+const placarX = document.querySelector('.placarX');
+const placarB = document.querySelector('.placarB');
 
 let bolinha = true;
 let valorBolinha = 0;
@@ -55,7 +61,7 @@ function validaVitoria(q, o){
             console.log('Bolinha ganhou!');
             valorBolinha++;
             console.log(`Valor bolinha ${valorBolinha}`);
-            reiniciaJogo();
+            tempoEspera(() => exibeTelaInformativa("BOLINHA GANHOU"), 1000);
             alteraPlacar(valorOelement, valorBolinha);
     } else if (o[0] && o[1] && o[2] ||
         o[3] && o[4] && o[5] ||
@@ -68,7 +74,7 @@ function validaVitoria(q, o){
             console.log('Xis ganhou!');
             valorXis++;
             console.log(`Valor xis ${valorXis}`);
-            reiniciaJogo();
+            tempoEspera(() => exibeTelaInformativa("XIS GANHOU"), 1000);
             alteraPlacar(valorXelement ,valorXis);
         }
         else {
@@ -109,16 +115,27 @@ function checaVelha() {
     });
 
     if (empate) {
-        modal.style.display = 'flex';
-        jogarNovamenteButton.addEventListener('click', function(){
-            reiniciaJogo();
-            modal.style.display = 'none'; 
-        })
-
-        reiniciarJogobutton.addEventListener('click', function(){
-            reiniciaJogo();
-            zeraJogo();
-            modal.style.display = 'none'; 
-        })
+        exibeTelaInformativa('DEU VELHA :(')
     }
+}
+
+function tempoEspera(funcao, tempo){
+    setTimeout(funcao, tempo);
+}
+
+function exibeTelaInformativa(texto){
+    adicionaTextoElement.innerHTML = `<p>${texto}</p>`
+    telaInformativa.style.display = 'flex';
+    placarX.innerHTML = `<p>X = ${valorXis}</p>`;
+    placarB.innerHTML = `<p>O = ${valorBolinha}</p>`
+    jogaNovamenteButtonInfo.addEventListener('click', function(){
+        reiniciaJogo();
+        telaInformativa.style.display = 'none';
+    })
+
+    zeraPlacarButton.addEventListener('click', function(){
+        reiniciaJogo();
+        zeraJogo();
+        telaInformativa.style.display = 'none';
+    })
 }
