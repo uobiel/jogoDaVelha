@@ -2,10 +2,14 @@ const quadrados = document.querySelectorAll('.q');
 const valorOelement = document.querySelector('#valorO');
 const valorXelement = document.querySelector('#valorX');
 const botaoReiniciar = document.querySelector('.botao');
+const modal = document.querySelector('.fade');
+const jogarNovamenteButton = document.querySelector('#jogaNovamenteButton');
+const reiniciarJogobutton = document.querySelector('#reiniciaButton');
 
 let bolinha = true;
 let valorBolinha = 0;
 let valorXis = 0;
+let velha = false;
 
 quadrados.forEach(quadrado => {
     quadrado.addEventListener('click', function() {
@@ -67,6 +71,9 @@ function validaVitoria(q, o){
             reiniciaJogo();
             alteraPlacar(valorXelement ,valorXis);
         }
+        else {
+            checaVelha();
+        }
 }
 
 function reiniciaJogo(){
@@ -82,9 +89,36 @@ function alteraPlacar(elemento, ponto){
 }
 
 botaoReiniciar.addEventListener('click', function(){
+    zeraJogo();
+})
+
+function zeraJogo(){
     valorOelement.innerText = '0';
     valorXelement.innerText = '0';
     valorBolinha = 0;
     valorXis = 0;
     reiniciaJogo();
-})
+}
+
+function checaVelha() {
+    let empate = true;
+    quadrados.forEach(quadrado => {
+        if (quadrado.innerHTML.trim() === '') {
+            empate = false;
+        }
+    });
+
+    if (empate) {
+        modal.style.display = 'flex';
+        jogarNovamenteButton.addEventListener('click', function(){
+            reiniciaJogo();
+            modal.style.display = 'none'; 
+        })
+
+        reiniciarJogobutton.addEventListener('click', function(){
+            reiniciaJogo();
+            zeraJogo();
+            modal.style.display = 'none'; 
+        })
+    }
+}
