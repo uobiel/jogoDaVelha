@@ -66,9 +66,7 @@ function validaVitoria(q, o){
             console.log(`Valor xis ${valorXis}`);
             reiniciaJogo();
             alteraPlacar(valorXelement ,valorXis);
-        } else {
-        reiniciaJogo()
-    }
+        }
 }
 
 function reiniciaJogo(){
