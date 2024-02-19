@@ -17,9 +17,11 @@ let valorBolinha = 0;
 let valorXis = 0;
 let velha = false;
 
+let bloquearCliques = false; 
+
 quadrados.forEach(quadrado => {
     quadrado.addEventListener('click', function() {
-        if (quadrado.innerHTML.trim() === '') {
+        if (!bloquearCliques && quadrado.innerHTML.trim() === '') {
             if (bolinha) {
                 quadrado.innerHTML = `<p>O</p>`;
                 checaVitoria();
@@ -31,6 +33,14 @@ quadrados.forEach(quadrado => {
         }
     });
 });
+
+function bloqueiaCliques() {
+    bloquearCliques = true;
+}
+
+function desbloqueiaCliques() {
+    bloquearCliques = false;
+}
 
 function checaVitoria() {
     let q = [false, false, false, false, false, false, false, false, false];
@@ -61,6 +71,7 @@ function validaVitoria(q, o){
             console.log('Bolinha ganhou!');
             valorBolinha++;
             console.log(`Valor bolinha ${valorBolinha}`);
+            bloqueiaCliques();
             tempoEspera(() => exibeTelaInformativa("BOLINHA GANHOU"), 1000);
             alteraPlacar(valorOelement, valorBolinha);
     } else if (o[0] && o[1] && o[2] ||
@@ -74,6 +85,7 @@ function validaVitoria(q, o){
             console.log('Xis ganhou!');
             valorXis++;
             console.log(`Valor xis ${valorXis}`);
+            bloqueiaCliques();
             tempoEspera(() => exibeTelaInformativa("XIS GANHOU"), 1000);
             alteraPlacar(valorXelement ,valorXis);
         }
@@ -83,6 +95,8 @@ function validaVitoria(q, o){
 }
 
 function reiniciaJogo(){
+    bloquearCliques = false;
+    
     for (let i = 0; i < 9; i++) {
         let quadrado = document.querySelector(`#q${i + 1}`);
 
@@ -95,6 +109,7 @@ function alteraPlacar(elemento, ponto){
 }
 
 botaoReiniciar.addEventListener('click', function(){
+    desbloqueiaCliques();
     zeraJogo();
 })
 
