@@ -3,7 +3,7 @@ const valorOelement = document.querySelector('#valorO');
 const valorXelement = document.querySelector('#valorX');
 const botaoReiniciar = document.querySelector('.botao');
 const modal = document.querySelector('.fade');
-const jogarNovamenteButton = document.querySelector('#jogaNovamenteButton');
+const voltarButton = document.querySelector('#voltarButton');
 const reiniciarJogobutton = document.querySelector('#reiniciaButton');
 const telaInformativa = document.querySelector('.fadeWin');
 const adicionaTextoElement = document.querySelector('.texto-informativo');
@@ -11,10 +11,12 @@ const jogaNovamenteButtonInfo = document.querySelector('#jogaNovamenteButtonInfo
 const zeraPlacarButton = document.querySelector('#zeraPlacarButton');
 const placarX = document.querySelector('.placarX');
 const placarB = document.querySelector('.placarB');
+const placarVelha = document.querySelector('.placarVelha');
 
 let bolinha = true;
 let valorBolinha = 0;
 let valorXis = 0;
+let valorVelha = 0;
 let velha = false;
 
 let bloquearCliques = false; 
@@ -96,7 +98,7 @@ function validaVitoria(q, o){
 
 function reiniciaJogo(){
     bloquearCliques = false;
-    
+
     for (let i = 0; i < 9; i++) {
         let quadrado = document.querySelector(`#q${i + 1}`);
 
@@ -109,8 +111,17 @@ function alteraPlacar(elemento, ponto){
 }
 
 botaoReiniciar.addEventListener('click', function(){
-    desbloqueiaCliques();
-    zeraJogo();
+    modal.style.display = 'flex';
+    voltarButton.addEventListener('click', function(){
+        modal.style.display = 'none';
+        desbloqueiaCliques();
+    })
+
+    reiniciaButton.addEventListener('click', function(){
+        desbloqueiaCliques();
+        zeraJogo();
+        modal.style.display = 'none';
+    })
 })
 
 function zeraJogo(){
@@ -118,6 +129,7 @@ function zeraJogo(){
     valorXelement.innerText = '0';
     valorBolinha = 0;
     valorXis = 0;
+    valorVelha = 0;
     reiniciaJogo();
 }
 
@@ -130,7 +142,8 @@ function checaVelha() {
     });
 
     if (empate) {
-        exibeTelaInformativa('DEU VELHA :(')
+        valorVelha++
+        exibeTelaInformativa('DEU VELHA :(');
     }
 }
 
@@ -143,6 +156,7 @@ function exibeTelaInformativa(texto){
     telaInformativa.style.display = 'flex';
     placarX.innerHTML = `<p>X = ${valorXis}</p>`;
     placarB.innerHTML = `<p>O = ${valorBolinha}</p>`
+    placarVelha.innerHTML = `<p>V = ${valorVelha}</p>`
     jogaNovamenteButtonInfo.addEventListener('click', function(){
         reiniciaJogo();
         telaInformativa.style.display = 'none';
